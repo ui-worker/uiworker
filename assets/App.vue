@@ -15,9 +15,9 @@
                         <router-link to="/component">
                             <Menu-Item>组件</Menu-Item>
                         </router-link>
-                        <!-- <router-link to="/github">
+                         <a href="https://github.com/ui-worker/uiworker">
                             <Menu-Item>Github</Menu-Item>
-                        </router-link> -->
+                        </a> 
                         <!-- <Menu-Item>实践</Menu-Item> -->
                     </Menu>
                 </Col>

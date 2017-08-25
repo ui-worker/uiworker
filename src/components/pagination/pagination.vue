@@ -114,7 +114,7 @@
             // 当前页数
             this.currentPage = this.current;
             // 总页数
-            this.totalPage = Math.ceil(this.total / this.pageSize);
+            // this.totalPage = Math.ceil(this.total / this.pageSize);
         },
         data () {
             return {
@@ -122,7 +122,7 @@
                 // 当前页数
                 currentPage: 1,
                 // 总页数
-                totalPage: 0,
+                // totalPage: 0,
                 // 是否显示前翻页省略号
                 showPrevMore: false,
                 // 是否显示后翻页省略号
@@ -130,6 +130,9 @@
             };
         },
         computed: {
+            totalPage () {
+                return Math.ceil(this.total / this.pageSize);
+            },
             simpleWrapperClass () {
                 return [
                     prefixCls,

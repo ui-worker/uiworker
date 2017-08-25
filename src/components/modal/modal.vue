@@ -203,6 +203,7 @@
 }
 .ui-modal-close {
     font-size: 32px;
+    line-height: 20px;
     color: #999;
     position: absolute;
     right: 16px;
