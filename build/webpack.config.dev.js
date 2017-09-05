@@ -14,7 +14,7 @@ module.exports = {
         /* 输出目录，没有则新建 */
         path: path.resolve(__dirname, '../dist/uiworker'),
         /* 静态目录，可以直接从这里取文件 */
-        publicPath: '/dist',
+        publicPath: '/uiworker/',
         /* 文件名 */
         filename: '[name].js?v=[chunkhash:8]'
     },

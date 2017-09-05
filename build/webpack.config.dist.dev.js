@@ -13,7 +13,8 @@ module.exports = {
         /* 输出目录，没有则新建 */
         path: path.resolve(__dirname, '../dist/uiworker'),
         /* 静态目录，可以直接从这里取文件 */
-        publicPath: '/dist/',
+        // publicPath: '/dist/',
+        publicPath: '/assets/fonts/',
         /* 文件名 */
         filename: 'uiworker-' + package.version + '.js',
         /* 指定库的名称，绑定到全局中，编译成单独的文件 */

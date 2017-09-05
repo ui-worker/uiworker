@@ -449,7 +449,7 @@ var _index16 = _interopRequireDefault(_index15);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var uiworker = {
-    version: '1.0.0',
+    version: '1.1.2',
     Row: _index.Row,
     Col: _index.Col,
     Menu: _index2.Menu,

@@ -85,6 +85,10 @@
             name: {
                 type: String
             },
+            regexp: {
+                type: String,
+                default: ''
+            }
         },
         data () {
             return {
@@ -129,7 +133,19 @@
             },
             handleInput (event) {
                 let value = event.target.value;
-                this.$emit('input', value);
+                if(this.regexp == ''){
+                     this.$emit('input', value);
+                }else{
+                    var _match = this.regexp.match(/^\/(.*)\/(.*)/)
+                    var pattern = _match[1];
+                    var attributes = _match[2];
+                    var _reg = new RegExp(pattern, attributes);
+                    var _result = _reg.test(value);
+                    this.$emit('onregexp', _result, value);
+                    this.$emit('input', value);
+                    // console.log(_reg, _result)
+                }
+               
                 // this.setCurrentValue(value); //感觉没有什么意义
                 // this.$emit('input', event);
             },
@@ -156,7 +172,7 @@
             }
         },
         mounted () {
-
+            // console.log();
         }
     };
 </script>
@@ -185,7 +201,7 @@
         background-image: none;
         position: relative;
         cursor: text;
-        transition: border .2s ease-in-out,background .2s ease-in-out,box-shadow .2s ease-in-out;
+        transition: border .2s ease-in-out .1s,background .2s ease-in-out .1s,box-shadow .2s ease-in-out .1s;
         /* 解决两个重合 */
         margin-bottom:1px;
         margin-top:1px; 

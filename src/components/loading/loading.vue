@@ -2,7 +2,7 @@
 	<!-- <div style="min-height:150px;"> -->
 		<div :class="[prefixCls + '-mask',]" :style="{position:positionFormat[position]}">
 			<div :class="[prefixCls + '-spinner',]">
-				<svg viewBox="25 25 50 50" class="circular"><circle cx="50" cy="50" r="20" fill="none" class="path"></circle></svg>
+				<svg viewBox="25 25 50 50" class="circular" v-show="loading"><circle cx="50" cy="50" r="20" fill="none" class="path"></circle></svg>
 				<!-- <p class="ui-loading-text" v-show="text" v-text="text">拼命加载中</p> -->
 				<p class="ui-loading-text"><slot></slot></p>
 
@@ -13,8 +13,8 @@
 <script type="text/javascript">
 	const prefixCls = 'ui-loading';
 	const positionFormat={
-		s: 'static',
-		static: 'static',
+		s: 'relative',
+		static: 'relative',
 		a: 'absolute',
 		absolute: 'absolute',
 		f: 'fixed',
@@ -30,6 +30,10 @@
             text: {
                 type: [String, Number, Boolean],
                 default: ''
+            },
+            loading: {
+                type: [Boolean],
+                default: true
             },
         },
         data(){
@@ -52,7 +56,7 @@
 	    right: 0;
 	    bottom: 0;
 	    left: 0;
-	    min-height: 80px;/*解决static*/
+	    min-height: 100px;/*解决static*/
 	    transition: opacity .3s;
 	}
 	.ui-loading-spinner {

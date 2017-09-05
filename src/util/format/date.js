@@ -76,18 +76,14 @@
      * @return  {string}  "2017-07-10";
      * @demo    formatDate(new Date(), 'yyyy-MM-dd')
      */
-    formatDate = function (dateObj, mask) {
-
+    var formatDate = function (dateObj, mask) {
         if (typeof dateObj === 'number') {
             dateObj = new Date(dateObj);
         }
-
         if (Object.prototype.toString.call(dateObj) !== '[object Date]' || isNaN(dateObj.getTime())) {
             throw new Error('Invalid Date in fecha.format');
         }
-
         mask = mask || 'yyyy-MM-dd HH:mm:ss';
-
         return mask.replace(token, function ($0) {
             return $0 in formatFlags ? formatFlags[$0](dateObj) : $0.slice(1, $0.length - 1);
         });

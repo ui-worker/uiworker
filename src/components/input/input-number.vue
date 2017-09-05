@@ -1,28 +1,26 @@
 <template>
-    <div :class="wrapClasses">
-        <input
-            ref="input"
-            type="text"
-            :class="inputClasses"
-            :placeholder="placeholder"
-            :style="inputStyles"
-            :disabled="disabled"
-            :maxlength="maxlength"
-            :readonly="readonly"
-            :name="name"
-            v-model="currentValue"
-            @keyup.enter="handleEnter"
-            @focus="handleFocus"
-            @blur="handleBlur"
-            @input="handleInput"
-            @change="handleChange">
-        <span class="ui-input-tips error" v-text="errorTips" v-show="errorTips">错误</span>
-    </div>
+    <Input
+        ref="input"
+        type="text"
+        :class="inputClasses"
+        :placeholder="placeholder"
+        :style="inputStyles"
+        :disabled="disabled"
+        :maxlength="maxlength"
+        :readonly="readonly"
+        :name="name"
+        v-model="currentValue"
+        @keyup.enter="handleEnter"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @input="handleInput"
+        @change="handleChange">
+        </Input>
 </template>
 <script>
-    const prefixCls = 'ui-input';
+    const prefixCls = 'ui-inputNumber';
     export default {
-        name: 'input',
+        name: 'InputNumber',
         props: {
             value: {
                 // 绑定的值，可使用 v-model 双向绑定
@@ -68,7 +66,8 @@
                 prefixCls: prefixCls,
                 textareaStyles: {},
                 inputStyles: {},
-                errorTips: ''
+                errorTips: '',//下掉，使用全局提示
+                errorTag: '',
             };
         },
         computed: {
@@ -112,18 +111,29 @@
             },
             checkNumber (value){
                 var _number = Number(value);
-                if(isNaN(_number)) {
-                    this.errorTips = "请输入有效数字";
-                    return false;
-                }else if(this.max !== false && this.max < value) {
-                    this.errorTips = "最大值：" + this.max;
-                    return false;
-                }else if(this.min !== false && this.min > value) {
-                    this.errorTips = "最小值：" + this.min;
-                    return false;
+                var _errorTips = '';
+                if(this.errorTag){
+                    // 动画异常
+                    // this.errorTag();
+                    // this.errorTag=null    
                 }
-                this.errorTips = "";
-                return true;
+                if(isNaN(_number)) {
+                    _errorTips = "请输入有效数字";
+                }else if(this.max !== false && this.max < value) {
+                    _errorTips = "最大值：" + this.max;
+                }else if(this.min !== false && this.min > value) {
+                    _errorTips = "最小值：" + this.min;
+                }
+                if(_errorTips != ''){
+                    this.errorTag = this.$Message.error({
+                        content: _errorTips,
+                        duration: 0,
+                        closable: true
+                    })
+                    return false;
+                }else{
+                    return true;
+                }
             },
             focus() {
                 this.$refs.input.focus();
@@ -136,15 +146,17 @@
                 }                
             },
             currentValue (val, old){
-                if(this.checkNumber(val)){
-                    if(val === ''){
+                if(val!=old){
+                    if(this.checkNumber(val)){
+                        if(val === ''){
+                            this.$emit('input', "");
+                        }else{
+                            this.$emit('input', Number(val)+"");                        
+                        }
+                    } else {
                         this.$emit('input', "");
-                    }else{
-                        this.$emit('input', Number(val)+"");                        
-                    }
-                } else {
-                    this.$emit('input', "");
-                };
+                    };
+                }
             }
         },
         mounted () {
@@ -152,67 +164,3 @@
         }
     };
 </script>
-
-<style scope>
-    *,:after,:before {
-        box-sizing: border-box
-    }
-    .ui-input-wrapper {
-        display: inline-block;
-        width: 100%;
-        position: relative;
-        vertical-align: middle;
-        /*为了内部用absolute写提示*/
-        position: relative;
-    }
-    .ui-input {
-        display: inline-block;
-        width: 100%;
-        height: 32px;
-        line-height: 1.5;
-        padding: 4px 7px;
-        font-size: 12px;
-        border: 1px solid #dddee1;
-        border-radius: 4px;
-        color: #495060;
-        background-color: #fff;
-        background-image: none;
-        position: relative;
-        cursor: text;
-        transition: border .2s ease-in-out,background .2s ease-in-out,box-shadow .2s ease-in-out;
-        /* 解决两个重合 */
-        margin-bottom:1px;
-        margin-top:1px; 
-    }
-    .ui-input:focus,.ui-input:hover {
-        border-color: #57a3f3
-    }
-    .ui-input:focus {
-        outline: 0;
-        box-shadow: 0 0 0 2px rgba(45,140,240,.2)
-    }
-    .ui-input[disabled],fieldset[disabled] .ui-input {
-        background-color: #f3f3f3;
-        opacity: 1;
-        cursor: not-allowed;
-        color: #ccc
-    }
-    textarea.ui-input {
-        max-width: 100%;
-        height: auto;
-        vertical-align: bottom;
-        font-size: 14px
-    }
-    /*提示样式*/
-    .ui-input-tips{
-        position: absolute;
-        right:0;top:0;
-        height:32px;line-height:32px;
-        padding:0 .8em;
-        min-width:1em;max-width:10em;
-    }
-    .ui-input-tips.error{
-        background-color: rgba(252, 85, 85, 0.91);
-        color:#fff;
-    }
-</style>

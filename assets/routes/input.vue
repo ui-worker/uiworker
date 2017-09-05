@@ -48,6 +48,39 @@
             <div class="example-box">
                 <div class="example-demo">
                     <Row className="demo-row">
+                        <Col span="6" className="form-label">校验输入框</Col>
+                        <Col span="12" className="form-input"><Input placeholder="请输入内容" regexp="/^[0-9]*$/g" v-model="inputTextreg"></Input></Col>
+                        <Col span="6" className="form-tips">{{inputTextreg}}</Col>
+                    </Row>
+                    <header><h4>数据绑定</h4></header>
+                    <p>通过给 Input 添加 v-model="inputTextreg" 属性实现数据绑定</p>
+                </div>
+                <div class="example-code">
+                    <script type='text/html' v-code>
+                        <template>
+                            <Row className="demo-row">
+                                <Col span="6" className="form-label">校验输入框</Col>
+                                <Col span="12" className="form-input">
+                                    <Input <org>placeholder</org>=<green>"请输入内容"</green> <org>v-model</org>=<green>"inputTextreg"</green>></Input>
+                                </Col>
+                                <Col span="6" className="form-tips"><green>{ {inputTextreg} }</green></Col>
+                            </Row>
+                        </template>
+                        <script>
+                            <org>export default</org> {
+                                data() {
+                                    return {
+                                        inputTextreg: ''
+                                    }
+                                }
+                            };
+                        &lt;/script&gt;
+                    </script>
+                </div>
+            </div>
+            <div class="example-box">
+                <div class="example-demo">
+                    <Row className="demo-row">
                         <Col span="6" className="form-label">数值输入框</Col>
                         <Col span="12" className="form-input"><InputNumber placeholder="请输入内容" v-model="inputNumber1"></InputNumber></Col>
                         <Col span="6" className="form-tips">{{inputNumber1}}</Col>
@@ -120,7 +153,7 @@
                 <div class="example-demo">
                     <Row className="demo-row">
                         <Col span="6" className="form-label">日期输入框</Col>
-                        <Col span="12" className="form-input"><InputDate placeholder="请选择日期" v-model="inputDate"></InputDate></Col>
+                        <Col span="12" className="form-input"><InputDate placeholder="日期日期" v-model="inputDate"></InputDate></Col>
                         <Col span="6" className="form-tips">{{inputDate}}</Col>
                     </Row>
                     <header><h4>数据绑定</h4></header>
@@ -132,7 +165,7 @@
                             <Row className="demo-row">
                                 <Col span="6" className="form-label">日期输入框</Col>
                                 <Col span="12" className="form-input">
-                                    <InputDate <org>placeholder</org>=<green>"请选择日期"</green> <org>v-model</org>=<green>"inputDate"</green>></InputDate>
+                                    <InputDate <org>placeholder</org>=<green>"日期日期"</green> <org>v-model</org>=<green>"inputDate"</green>></InputDate>
                                 </Col>
                                 <Col span="6" className="form-tips"><green>{ {inputDate} }</green></Col>
                             </Row>
@@ -142,6 +175,42 @@
                                 data() {
                                     return {
                                         inputDate: ''
+                                    }
+                                }
+                            };
+                        &lt;/script&gt;
+                    </script>
+                </div>
+            </div>
+            <div class="example-box">
+                <div class="example-demo">
+                    <Row className="demo-row">
+                        <Col span="6" className="form-label">日期时间</Col>
+                        <Col span="12" className="form-input"><InputDate placeholder="日期时间" format="yyyy-MM-dd HH:mm:ss" v-model="inputDate2" :single="true"></InputDate></Col>
+                        <Col span="6" className="form-tips">{{inputDate2}}</Col>
+                    </Row>
+                    <Row className="demo-row">
+                        <Col span="6" className="form-label"><Button @click="inputDate2 = ''">清空</Button></Col>
+                    </Row>
+                    <header><h4>数据绑定</h4></header>
+                    <p>通过给 Input 添加 v-model="inputDate2" 属性实现数据绑定,输入值可以为数字 字符串 日期，返回值为字符串 :single="true"可以显示时间 format为返回时间格式 :single="true" 为是否使用时分秒选择器</p>
+                </div>
+                <div class="example-code">
+                    <script type='text/html' v-code>
+                        <template>
+                            <Row className="demo-row">
+                                <Col span="6" className="form-label">日期输入框</Col>
+                                <Col span="12" className="form-input">
+                                    <InputDate <org>placeholder</org>=<green>"日期日期"</green> <org>v-model</org>=<green>"inputDate2"</green>></InputDate>
+                                </Col>
+                                <Col span="6" className="form-tips"><green>{ {inputDate2} }</green></Col>
+                            </Row>
+                        </template>
+                        <script>
+                            <org>export default</org> {
+                                data() {
+                                    return {
+                                        inputDate2: ''
                                     }
                                 }
                             };
@@ -337,12 +406,14 @@
         data() {
             return {
                 inputText: '',
+                inputTextreg: '',
                 inputNumber1: 0,
                 inputNumber2: 0,
                 inputNumber3: 0,
                 inputNumber4: 0,
                 inputNumber4: 0,
                 inputDate:'',
+                inputDate2:'',
             }
         }
     }

@@ -1,9 +1,10 @@
 <template>
-    <li :class="classnames" @click.stop="select"><slot></slot></li>
+    <li :class="classnames" @click.stop="select" v-show="!hidden"><slot>{{showLabel}}</slot></li>
 </template>
 
 <script>
 	import Emitter from '../../mixins/emitter';
+    import {findParent} from '../../util/assist';
 
     const prefixCls = 'ui-select-item';
     
@@ -14,6 +15,9 @@
 			value: {
 				type: [String, Number],
 				required: true
+			},
+			label: {
+				type: [String, Number],
 			},
 			disabled: {
 				type: Boolean,
@@ -26,7 +30,8 @@
 		},
         data () {
             return {
-				selected: false
+				selected: false,
+				hidden: false
 			};
         },
         computed:  {
@@ -39,7 +44,15 @@
 						[this.className]: !!this.className
 					}
 				];
-            }
+            },
+			showLabel () {
+				if (this.label) {
+					return this.label;
+				}
+				else {
+					return this.value;
+				}
+			}
         },
         methods: {
 			select () {
@@ -50,6 +63,18 @@
 				// 触发父组件（Select）的selected事件处理程序
 				this.dispatch('Select', 'selectedItem', this);
 				return this;
+			},
+			queryChange (val) {
+				// 使用label检测
+				if (this.label) {
+					this.hidden = !new RegExp(val, 'gi').test(this.label);
+					val !== this.label && ( this.selected = false );
+				}
+				// 使用value检测
+				// else {
+				// 	this.hidden = !new RegExp(val, 'gi').test(this.value);
+				// 	val !== this.value && ( this.selected = false );
+				// }
 			}
 		},
 		mounted () {
@@ -61,6 +86,10 @@
 				}, 0);
 				
 			}
+			// 监听父组件的querychange事件（输入文本时触发）
+			this.$on('querychange', (value) => {
+				this.queryChange(value);
+			});
 		}
     }
 </script>
@@ -78,8 +107,14 @@
 	cursor: pointer;
 	transition: background .2s ease-in-out;
 }
+.ui-select-dropdown-not-found .ui-select-item {
+	color: #bbbec4;
+}
 .ui-select-item:hover {
 	background: #f3f3f3;
+}
+.ui-select-dropdown-not-found .ui-select-item:hover {
+	background: #fff;
 }
 .ui-select-item-focus {
 	background: #f3f3f3;

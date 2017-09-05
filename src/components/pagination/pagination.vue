@@ -110,17 +110,11 @@
                 default: false
             }
         },
-        mounted () {
-            // 当前页数
-            this.currentPage = this.current;
-            // 总页数
-            // this.totalPage = Math.ceil(this.total / this.pageSize);
-        },
         data () {
             return {
                 prefixCls: prefixCls,
                 // 当前页数
-                currentPage: 1,
+                currentPage: this.current,
                 // 总页数
                 // totalPage: 0,
                 // 是否显示前翻页省略号
@@ -128,6 +122,11 @@
                 // 是否显示后翻页省略号
                 showNextMore: false
             };
+        },
+        watch: {
+            current (val) {
+                this.currentPage = val;
+            }
         },
         computed: {
             totalPage () {

@@ -103,7 +103,7 @@
                 if (this.group) {
                     this.parent.change(this.model);
                 } else {
-                    this.$emit('on-change', checked);
+                    this.$emit('change', checked);
                 }
             },
             updateModel () {
@@ -162,7 +162,7 @@
         border-top: 0;
         border-left: 0;
         transform: rotate(45deg) scale(0);
-        transition: all .2s ease-in-out
+        /*transition: transform .2s ease-in-out*/
     }
 
     .ui-checkbox-input {
@@ -203,7 +203,7 @@
         border-top: 0;
         border-left: 0;
         transform: rotate(45deg) scale(1);
-        transition: all .2s ease-in-out
+        /*transition: transform .2s ease-in-out*/
     }
 
     .ui-checkbox-disabled.ui-checkbox-checked:hover .ui-checkbox-inner {

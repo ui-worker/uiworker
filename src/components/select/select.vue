@@ -1,13 +1,19 @@
 <template>
     <div :class="classnames" :style="styles" v-clickoutside="closeDropList">
         <div :class="selectionclass" @click="toggleDropList" :style="styles">
-            <span :class="[prefixCls + '-placeholder']" v-show="!isSelected" :style="styles">{{placeholder}}</span>
-            <span :class="[prefixCls + '-selected']" v-show="isSelected" :style="styles">{{selectedTxt}}</span>
-            <Icon type="arrow-down-b" class="ui-select-arrow"></Icon>
+            <span :class="[prefixCls + '-placeholder']" v-show="!isSelected && !search" :style="styles">{{placeholder}}</span>
+            <span :class="[prefixCls + '-selected']" v-show="isSelected && !search" :style="styles">{{selectedTxt}}</span>
+			<input type="text"
+				:class="[prefixCls + '-search']"
+				v-if="search"
+				v-model="query"
+				:placeholder="placeholder">
+            <Icon type="arrow-down-b" class="ui-select-arrow" v-show="arrow"></Icon>
         </div>
 		<transition name="slide-up">
 			<Drop v-show="visible">
-				<ul :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
+				<ul :class="[prefixCls + '-dropdown-list']" v-show="!notFound"><slot></slot></ul>
+				<ul :class="[prefixCls + '-dropdown-not-found']" v-show="notFound"><li :class="[prefixCls + '-item']">{{notFoundTxt}}</li></ul>
 			</Drop>
 		</transition>
     </div>
@@ -17,6 +23,7 @@
 	import Drop from './dropdown.vue';
 	import Emitter from '../../mixins/emitter';
 	import clickoutside from '../../directives/click-outside';
+    import {findChilds} from '../../util/assist';
 
 	const prefixCls = 'ui-select';
 
@@ -39,7 +46,12 @@
 				default: false
 			},
 			width: [String, Number],
-			height: [String, Number]
+			height: [String, Number],
+			arrow: {
+				type: Boolean,
+				default: true
+			},
+			search: Boolean
         },
         data () {
             return {
@@ -47,7 +59,10 @@
                 selectedTxt: '',
                 selectedVal: null,
                 isSelected: false,
-                visible: false
+                visible: false,
+				query: '',   // 查询关键字
+				notFound: false,   // 是否未发现数据（默认不显示）
+				notFoundTxt: '未找到匹配结果'
             };
         },
         computed:  {
@@ -107,34 +122,94 @@
 				this.isSelected = true;
 				this.selectedTxt = currOption.$el.innerHTML;
 				this.selectedVal = currOption.value;
+				this.$emit('input', this.selectedVal);
+				return currIndex;
+			},
+			findChild () {
+				var _this = this;
+				var childItem = this.$children[1].$children;
+				if (!childItem) return false;
+				// 空值清除文字和样式
+				if(!_this.value) {
+					this.isSelected = false;
+					this.selectedTxt = '';
+					this.selectedVal = '';
+					childItem.forEach(function(option, i) {
+						option.selected = false;
+					});
+					return;
+				}
+				childItem.forEach(function(option, i) {
+					if (_this.value === option.value) {
+						_this.updateOption(option);
+					}
+				});
+			},
+			querySearch (value) {
+				// 是否清除v-model绑定的值
+				var isClearSelected = true;
+				// 是否显示 没查到数据
+				var isShowNotFound = false;
+				// 触发子组件queryChange事件
+				this.$children[1].$children.forEach((item) => {
+					// 触发子组件的querychange方法
+					item.$emit('querychange', value);
+					// 进入是否显示 未查到数据 的逻辑
+					if (!isShowNotFound) {
+						// 没有匹配数据
+						if (item.hidden) {
+							// 显示 没查到数据
+							this.notFound = true;
+						} else {
+							// 不显示 没查到数据
+							this.notFound = false;
+							// 阻止下次遍历isShowNotFound逻辑
+							isShowNotFound = true;
+						}
+					}
+					// 改变选中状态
+					item.selected === true && ( isClearSelected = false );
+				});
+				if (isClearSelected) {
+					this.$emit('input', '');
+				}
+				// 输入框值变化时触发回调
+				this.$emit('queryChange', value);
+			}
+		},
+		watch: {
+			value (value) {
+				this.findChild();
+			},
+			query (value) {
+				this.querySearch(value);
+			}
+		},
+		mounted () {
+			this.findChild();
+			// 订阅子组件Option的select事件
+			this.$on('selectedItem', (currOption) => {
+				var currIndex = this.updateOption(currOption);
+				// query变量设置为选中的label或value
+				if (currOption.label) {
+					this.query = currOption.label;
+				}
+				// else {
+				// 	console.info(currOption)
+				// 	console.info(this.selectedTxt)
+				// 	this.query = this.selectedTxt;
+				// }
 				// 暴露change事件给开发者
 				this.$emit('change', {
 					label: this.selectedTxt,
 					value: this.selectedVal,
 					index: currIndex
 				});
-				this.$emit('input', this.selectedVal);
-			},
-			findChild () {
-				var _this = this;
-				var childItem = this.$children[1].$children;
-				if (!childItem) return false;
-				childItem.forEach(function(option, i) {
-					if (_this.value === option.value) {
-						_this.updateOption(option);
-					}
-				});
-			}
-		},
-		watch: {
-			value (value) {
-				this.findChild();
-			}
-		},
-		mounted () {
-			this.findChild();
-			// 订阅子组件Option的select事件
-			this.$on('selectedItem', this.updateOption);
+			});
+			// 订阅子组件clear事件，清空外部绑定的值
+			this.$on('clear', () => {
+				this.$emit('input', '');
+			});
 		}
     }
 </script>
@@ -228,5 +303,30 @@
     box-shadow: 0 1px 6px rgba(0,0,0,.2);
     position: absolute;
     z-index: 900;
+}
+.ui-select-dropdown-not-found {
+	text-align: center;
+}
+.ui-select-search{
+	height: 100%;
+	border: none;
+	outline: 0;
+	color: #495060;
+	background-color: transparent;
+	cursor: pointer;
+	font-size: 12px;
+	padding-left: 8px;
+	padding-right: 24px;
+	float: left;
+	width: 100%;
+}
+input.ui-select-search::-webkit-input-placeholder{
+	color: #bbbec4;
+}
+input.ui-select-search::-moz-input-placeholder{
+	color: #bbbec4;
+}
+input.ui-select-search:-ms-input-placeholder{
+	color: #bbbec4;
 }
 </style>

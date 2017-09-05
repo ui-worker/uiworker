@@ -181,8 +181,6 @@ aside{
 .color-black{
         background: #404040; 
 }
-article{
-}
 article h1{
     font-size: 26px;
     font-weight: 400;
@@ -247,6 +245,7 @@ article .line-code{
 .timeline{
     padding-left: 30px;
     position: relative;
+    overflow: hidden;
 }
 .timeline:after{
     content: '';

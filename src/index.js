@@ -3,7 +3,7 @@
 import {Row, Col} from './components/grid/index.js';
 import {Menu, MenuItem, SubMenu} from './components/menu/index.js';
 import {Input, InputNumber, InputDate} from './components/input/index.js';
-import {Panel} from './components/panel/panel.js';
+import {DatePanel} from './components/panel/panel.js';
 import {Icon} from './components/icon/index.js';
 import {Button} from './components/button/index.js';
 import {Select, Option} from './components/select/index.js';
@@ -18,7 +18,7 @@ import {Loading} from './components/loading/index.js';
 import Message from './components/Message/index.js';
 
 const uiworker = {
-    version: '1.0.0',
+    version: '1.1.2',
     Row,
     Col,
     Menu,
@@ -27,7 +27,7 @@ const uiworker = {
     Input,
     InputNumber,
     InputDate,
-    Panel,
+    DatePanel,
     Icon,
     Button,
     Select,

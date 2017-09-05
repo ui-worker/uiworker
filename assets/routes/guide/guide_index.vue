@@ -26,10 +26,10 @@
             <!-- 版本 -->
             <h2>版本</h2>
             <ul>
-                <li>压缩版js：<a href="/uiworker/uiworker-1.0.0.min.js">v1.0.0</a></li>
-                <li>压缩版css：<a href="/uiworker/uiworker.min.css">v1.0.0</a></li>
-                <li>开发版js：<a href="/uiworker/uiworker-1.0.0.js">v1.0.0</a></li>
-                <li>开发版css：<a href="/uiworker/uiworker.css">v1.0.0</a></li>
+                <li>压缩版js：<a href="/uiworker/uiworker-1.1.2.min.js">v1.1.2</a></li>
+                <li>压缩版css：<a href="/uiworker/uiworker.min.css">v1.1.2</a></li>
+                <li>开发版js：<a href="/uiworker/uiworker-1.1.2.js">v1.1.2</a></li>
+                <li>开发版css：<a href="/uiworker/uiworker.css">v1.1.2</a></li>
             </ul>
             <!-- 安装 -->
             <h2>安装</h2>

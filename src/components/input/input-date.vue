@@ -1,21 +1,36 @@
 <template>
 	<div>
-		<Input ref="input" placeholder="请选择日期" v-model="inputvalue"  @focus="focus" @blur="hidePanel" @keydown.native.delete="inputvalue=''"></Input>
+		<Input ref="input" :placeholder="placeholder" v-model="inputvalue" @click="PanelShow == true?PanelShow = true:''" @focus="focus" @blur="hidePanel" @keydown.native.delete="inputvalue=''"></Input>
 		<div class="PanelWarrper">
-			<Panel ref="Panel" :show="PanelShow" v-model="Panelvalue" @focus="inputFcous"></Panel>
+			<DatePanel ref="DatePanel" :show="PanelShow" v-model="Panelvalue" :timePanel="single" @focus="inputFcous"></DatePanel>
 		</div>
 	</div>
 </template>
 <script type="text/javascript">
-	import {Panel} from '../panel/panel.js';
-
+	import {DatePanel} from '../panel/panel.js';
+	import FormatDate from '../../util/format/date.js';
 	export default {
+		name: 'InputDate',
 		props:{
             value: {
                 // 绑定的值，可使用 v-model 双向绑定
                 type: [String, Number, Date],
                 default: ''
             },
+            placeholder: {
+                // 占位文本
+                type: String,
+                default: '请选择日期'
+            },
+            single: {
+                // 绑定的值，可使用 v-model 双向绑定
+                type: [Boolean],
+                default: false
+            },
+            format: {
+                type: [String],
+                default: 'yyyy-MM-dd'
+            }
 		},
 	    data() {
 	        return {
@@ -27,10 +42,10 @@
 	    },
 	    methods: {
 	    	focus() {
-	    		// console.log(this.inputvalue?true:false,this.inputvalue,this.Panelvalue)
-	    		this.Panelvalue = this.inputvalue ? new Date(this.inputvalue+" 00:00:00") : null;
-	    		// console.log(this.inputvalue?true:false,this.inputvalue,this.Panelvalue)
-	    		this.showPanel();
+	    		if(this.PanelShow != true){
+	    			this.Panelvalue = this.inputvalue ?(this.single ? this.newDate(this.inputvalue) : this.newDate(this.inputvalue+" 00:00:00") ): null;
+	    		}	
+	    		this.showPanel();    		
 	    	},
 	    	showPanel(){
     			clearInterval(this.PanelInterval);
@@ -41,68 +56,57 @@
 				clearInterval(this.PanelInterval);
 	    		this.PanelInterval=setTimeout(function(){
 	    			_this.PanelShow = false;
-	    		},100);
+	    		},200);
 	    		// this.$emit('input', this.inputDate)
 	    	},
 	    	inputFcous(){
 	    		// console.log(this.$refs.input, this.$refs.input.focus, 1);
 	    		this.$refs.input.focus();
 	    	},
-	    	formatDate(_data) {
-	    		if (_data) {
-			        var newDate = new Date(parseInt(_data));
-			        var Year = 0;
-			        var Month = 0;
-			        var Day = 0;
-			        var CurrentDate = "";
-
-			        Year = newDate.getFullYear();
-			        Month = newDate.getMonth() + 1;
-			        Day = newDate.getDate();
-
-			        CurrentDate += Year + "/";
-
-			        if (Month >= 10) {
-			            CurrentDate += Month + "/";
-			        } else {
-			            CurrentDate += "0" + Month + "/";
-			        };
-
-			        if (Day >= 10) {
-			            CurrentDate += Day;
-			        } else {
-			            CurrentDate += "0" + Day;
-			        }
-			        return CurrentDate;
-			    } else {
-			        return '';
-			    }
-	    	},
+			newDate(val){
+				if(val == undefined){
+					return new Date();
+				}else if((val instanceof Date)){
+	    			return this.newDate(val.getTime());
+	    		}else if(typeof val == "number" || typeof val == "object"){
+	    			return new Date(val);
+	    		}else if(typeof val == "string" && val!=''){
+	    			return this.newDate(new Date(val.replace(/-/g,'/')).getTime())
+	    		}else{
+	    			return ''
+	    		}
+			},
+			eqDate(val1 ,val2){
+			}
 	    },
 	    watch: {
-	    	'value': function(val){
-	    		if(typeof val == "object"){
-	    			// this.Panelvalue = val
-	    			this.inputvalue = this.formatDate(val.getTime());
-	    		}else if(typeof val == "number"){
-	    			// this.Panelvalue = new Date(val)
-	    			this.inputvalue = this.formatDate(val);
-	    		}else if(val!=''){
-	    			// this.Panelvalue = new Date(val.replace(/-/g,'/'))
-	    			this.inputvalue = this.formatDate(new Date(val.replace(/-/g,'/')).getTime());
+	    	'value': function(val, old){
+	    		if(val == ''){
+	    			this.inputvalue = null;
+	    		}else if(val != old){
+	    			// console.log(this.newDate(val));
+	    			this.inputvalue = FormatDate(this.newDate(val) || new Date(), this.format);
 	    		}
 	    	},
 	    	'inputvalue': function(val){
-	    		this.$emit('input', this.inputvalue);
+	    		if(val){
+	    			this.$emit('input', val);
+	    		}else{
+	    			this.$emit('input', '');
+	    		}
+	    		
 	    	},
 	    	'Panelvalue': function (val){
-	    		// console.log(this.formatDate(this.Panelvalue.getTime()));
-	    		this.inputvalue = this.Panelvalue?this.formatDate(this.Panelvalue.getTime()):'';
+	    		// console.log(this.Panelvalue);
+	    		this.inputvalue = this.Panelvalue?FormatDate(this.Panelvalue, this.format):'';
 	    	},
-	    }
+	    },
+	    mounted () {
+        }
 	}
 </script>
 <style type="text/css" scope>
 	.PanelWarrper{position:relative;min-width: 240px;}
-	.PanelWarrper .ui-panel{position:absolute;background-color: #fff;box-shadow: 0 1px 6px rgba(0,0,0,.2);z-index:999;}
+	.PanelWarrper .ui-datepanel_datetime{position:absolute;background-color: #fff;box-shadow: 0 1px 6px rgba(0,0,0,.2);z-index:999;}
+	.ui-datepanel_datetime{max-width:240px;}
 </style>

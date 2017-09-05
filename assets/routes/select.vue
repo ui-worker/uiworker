@@ -45,7 +45,7 @@
             <!-- demo-2 -->
             <div class="example-box">
                 <div class="example-demo">
-                    <Select width="200px" height="30" v-model="selectModel">
+                    <Select width="200px" height="30" v-model="selectModel" @change="test">
                         <Option value="beijing">北京市</Option>
                         <Option value="shanghai">上海市</Option>
                         <Option value="shenzhen">深圳市</Option>
@@ -61,6 +61,7 @@
                         <Button type="error" @click="changeModel('hangzhou')">杭州市</Button>
                         <Button type="warning" @click="changeModel('nanjing')">南京市</Button>
                         <Button type="primary" style="background-color: #343434;" @click="changeModel('chongqing')">重庆市</Button>
+                        <Button type="warning" @click="changeModel('')">重置</Button>
                     </div>
                     <header><h4>双向绑定</h4></header>
                     <p>可通过v-model设置双向数据绑定来切换列表选中项</p>
@@ -206,6 +207,7 @@
                 </div>
             </div>
 
+            <!-- demo-5 -->
             <div class="example-box">
                 <div class="example-demo">
                      <Select width="200px" height="30">
@@ -229,6 +231,60 @@
                             <Option value="nanjing">南京市</Option>
                             <Option value="chongqing">重庆市</Option>
                         </Select> 
+                    </script> 
+                </div>
+            </div>
+            
+            <!-- demo-6 -->
+            <div class="example-box">
+                <div class="example-demo">
+                    <Select width="300px" height="30" search v-model="cityName" @queryChange="testSearch" :arrow="false">
+                        <Option value="beijing" label="北京市">北京市</Option>
+                        <Option value="shanghai" label="上海市">上海市</Option>
+                        <Option value="shenzhen" label="深圳市">深圳市</Option>
+                        <Option value="hangzhou" label="杭州市">杭州市</Option>
+                        <Option value="nanjing" label="南京市">南京市</Option>
+                        <Option value="chongqing" label="重庆市">重庆市</Option>
+                        <Option value="hangzhou1" label="杭州市1">杭州市1</Option>
+                        <Option value="hangzhou2" label="杭州市2">杭州市2</Option>
+                        <Option value="hangzhou3" label="杭州市3">杭州市3</Option>
+                        <Option value="hangzhou4" label="杭州市4">杭州市4</Option>
+                        <Option value="hangzhou5" label="杭州市5">杭州市5</Option>
+                        <Option value="hangzhou6" label="杭州市asdf">杭州市asdf</Option>
+                        <Option value="hangzhou7" label="杭州市fgfg">杭州市fgfg</Option>
+                        <Option value="hangzhou8" label="杭州市gaga">杭州市gaga</Option>
+                        <Option value="hangzhou9" label="杭州市hh">杭州市hh</Option>
+                    </Select>
+                    <span>{{cityName}}</span>
+                    <header><h4>搜索框</h4></header>
+                    <p>给 Select 组件绑定search属性可显示输入框，进行搜索。</p>
+                    <p>必须给每个 Option 绑定label属性，设置为要显示的内容，文本框输入时会遍历label属性值进行搜索。</p>
+                    <p>绑定queryChange事件，会在输入值改变时触发，回调返回参数为输入的值，可在此回调中做远程数据搜索。</p>
+                    <p>arrow属性设置为false，可以隐藏下拉箭头</p>
+                </div>
+                <div class="example-code">
+                    <script type='text/html' v-code>
+                        <Select width="300px" height="30" 
+                            <org>search</org> 
+                            v-model="cityName" 
+                            <org>@queryChange</org>=<green>"testSearch"</green> 
+                            <org>:arrow</org>=<green>"false"</green>>
+                            <Option value="beijing" <org>label</org>=<green>"北京市"</green>>北京市</Option>
+                            <Option value="shanghai" <org>label</org>=<green>"上海市"</green>>上海市</Option>
+                            <Option value="shenzhen" <org>label</org>=<green>"深圳市"</green>>深圳市</Option>
+                            <Option value="hangzhou" <org>label</org>=<green>"杭州市"</green>>杭州市</Option>
+                            <Option value="nanjing" <org>label</org>=<green>"南京市"</green>>南京市</Option>
+                            <Option value="chongqing" <org>label</org>=<green>"重庆市"</green>>重庆市</Option>
+                            <Option value="hangzhou1" <org>label</org>=<green>"杭州市1"</green>>杭州市1</Option>
+                            <Option value="hangzhou2" <org>label</org>=<green>"杭州市2"</green>>杭州市2</Option>
+                            <Option value="hangzhou3" <org>label</org>=<green>"杭州市3"</green>>杭州市3</Option>
+                            <Option value="hangzhou4" <org>label</org>=<green>"杭州市4"</green>>杭州市4</Option>
+                            <Option value="hangzhou5" <org>label</org>=<green>"杭州市5"</green>>杭州市5</Option>
+                            <Option value="hangzhou6" <org>label</org>=<green>"杭州市asdf"</green>>杭州市asdf</Option>
+                            <Option value="hangzhou7" <org>label</org>=<green>"杭州市fgfg"</green>>杭州市fgfg</Option>
+                            <Option value="hangzhou8" <org>label</org>=<green>"杭州市gaga"</green>>杭州市gaga</Option>
+                            <Option value="hangzhou9" <org>label</org>=<green>"杭州市hh"</green>>杭州市hh</Option>
+                        </Select>
                     </script> 
                 </div>
             </div>
@@ -276,6 +332,18 @@
                         <td>Number | String</td> 
                         <td>-</td>
                     </tr>
+                    <tr>
+                        <td>search</td> 
+                        <td>是否开启输入框搜索</td> 
+                        <td>Boolean</td> 
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td>arrow</td> 
+                        <td>是否显示下拉箭头</td> 
+                        <td>Boolean</td> 
+                        <td>true</td>
+                    </tr>
                 </tbody>
             </table>
             <h3>Select 事件</h3>
@@ -292,6 +360,11 @@
                         <td>change</td> 
                         <td>选中的Option变化时触发，回调函数参数返回一个对象包含3个属性，分别为label、value、index</td> 
                         <td>当前选中项，例：{label: '杭州市', value: 'hangzhou', index: 2}</td>
+                    </tr>
+                    <tr>
+                        <td>queryChange</td> 
+                        <td>搜索框的值改变时触发，返回输入值。</td> 
+                        <td>query 输入值</td>
                     </tr>
                 </tbody>
             </table>
@@ -319,6 +392,12 @@
                         <td>Boolean</td> 
                         <td>false</td>
                     </tr>
+                    <tr>
+                        <td>label</td> 
+                        <td>下拉列表项要显示的内容，开启搜索时，会查询此属性值做对比</td> 
+                        <td>String | Number</td> 
+                        <td>-</td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -335,7 +414,8 @@ export default {
                 value: null,
                 index: null
             },
-            selectModel: ''
+            selectModel: '',
+            cityName: ''
         };
     },
     methods: {
@@ -346,6 +426,12 @@ export default {
             this.ui_select.label = item.label;
             this.ui_select.value = item.value;
             this.ui_select.index = item.index;
+        },
+        test (obj) {
+            console.info(obj)
+        },
+        testSearch (value) {
+            console.info(value)
         }
     }
 }
