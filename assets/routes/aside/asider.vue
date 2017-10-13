@@ -32,6 +32,9 @@
             <router-link to="/component/checkbox">
                 <Menu-Item>Checkbox 多选按钮</Menu-Item>
             </router-link>
+            <router-link to="/component/switch">
+                <Menu-Item>Switch 开关</Menu-Item>
+            </router-link>
             <router-link to="/component/select">
                 <Menu-Item>Select 选择器</Menu-Item>
             </router-link>
@@ -68,6 +71,9 @@
 
             <router-link to="/component/pagination">
                 <Menu-Item>Pagination 分页</Menu-Item>
+            </router-link>
+            <router-link to="/component/tag">
+                <Menu-Item>Tag 标签</Menu-Item>
             </router-link>
         </SubMenu>
     </Menu>

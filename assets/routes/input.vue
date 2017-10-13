@@ -185,12 +185,14 @@
             <div class="example-box">
                 <div class="example-demo">
                     <Row className="demo-row">
-                        <Col span="6" className="form-label">日期时间</Col>
+                        <Col span="6" className="form-label">inputDate2 <Button @click="inputDate2 = ''">清空</Button></Col>
                         <Col span="12" className="form-input"><InputDate placeholder="日期时间" format="yyyy-MM-dd HH:mm:ss" v-model="inputDate2" :single="true"></InputDate></Col>
                         <Col span="6" className="form-tips">{{inputDate2}}</Col>
                     </Row>
                     <Row className="demo-row">
-                        <Col span="6" className="form-label"><Button @click="inputDate2 = ''">清空</Button></Col>
+                        <Col span="6" className="form-label">日期时间</Col>
+                        <Col span="12" className="form-input"><InputDate placeholder="日期时间" format="yyyy-MM-dd HH:mm:ss" v-model="inputDate3" :single="false"></InputDate></Col>
+                        <Col span="6" className="form-tips">{{inputDate3}}</Col>
                     </Row>
                     <header><h4>数据绑定</h4></header>
                     <p>通过给 Input 添加 v-model="inputDate2" 属性实现数据绑定,输入值可以为数字 字符串 日期，返回值为字符串 :single="true"可以显示时间 format为返回时间格式 :single="true" 为是否使用时分秒选择器</p>
@@ -414,6 +416,7 @@
                 inputNumber4: 0,
                 inputDate:'',
                 inputDate2:'',
+                inputDate3:'2017-09-21 00:00:00',
             }
         }
     }

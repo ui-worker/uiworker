@@ -7,13 +7,24 @@
 				:class="[prefixCls + '-search']"
 				v-if="search"
 				v-model="query"
+<<<<<<< HEAD
+				:disabled="disabled"
+				ref="input"
+=======
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 				:placeholder="placeholder">
             <Icon type="arrow-down-b" class="ui-select-arrow" v-show="arrow"></Icon>
         </div>
 		<transition name="slide-up">
 			<Drop v-show="visible">
+<<<<<<< HEAD
+				<ul :class="[prefixCls + '-dropdown-list']" v-show="(!notFound && !loadingState)"><slot></slot></ul>
+				<ul :class="[prefixCls + '-dropdown-not-found']" v-show="notFound && !loadingState"><li :class="[prefixCls + '-item']">{{notFoundTxt}}</li></ul>
+				<ul :class="[prefixCls + '-dropdown-not-found']" v-show="remote && loadingState"><li :class="[prefixCls + '-item']">{{loadingTxt}}</li></ul>
+=======
 				<ul :class="[prefixCls + '-dropdown-list']" v-show="!notFound"><slot></slot></ul>
 				<ul :class="[prefixCls + '-dropdown-not-found']" v-show="notFound"><li :class="[prefixCls + '-item']">{{notFoundTxt}}</li></ul>
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 			</Drop>
 		</transition>
     </div>
@@ -51,7 +62,13 @@
 				type: Boolean,
 				default: true
 			},
+<<<<<<< HEAD
+			search: Boolean,
+			// 是否为远程搜索
+			remote: Boolean,
+=======
 			search: Boolean
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
         },
         data () {
             return {
@@ -62,9 +79,15 @@
                 visible: false,
 				query: '',   // 查询关键字
 				notFound: false,   // 是否未发现数据（默认不显示）
+<<<<<<< HEAD
+				notFoundTxt: '未找到匹配结果',
+				loadingState: false,
+				loadingTxt: '加载中...',
+=======
 				notFoundTxt: '未找到匹配结果'
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
             };
-        },
+		},
         computed:  {
             classnames () {
                 return [
@@ -100,6 +123,12 @@
                     return false;
                 }
 				this.visible = !this.visible;
+				// 搜索时要先清空选中项
+				if (this.visible && (this.search || this.remote)) {
+					findChilds(this, 'Option').forEach(function(option, i) {
+						option.selected = false;
+					});
+				}
 			},
 			// 关闭下拉列表
 			closeDropList () {
@@ -123,6 +152,12 @@
 				this.selectedTxt = currOption.$el.innerHTML;
 				this.selectedVal = currOption.value;
 				this.$emit('input', this.selectedVal);
+<<<<<<< HEAD
+				if (this.search || this.remote) {
+					this.query = currOption.label;
+				}
+=======
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 				return currIndex;
 			},
 			findChild () {
@@ -130,10 +165,18 @@
 				var childItem = this.$children[1].$children;
 				if (!childItem) return false;
 				// 空值清除文字和样式
+<<<<<<< HEAD
+				if( (typeof _this.value === 'string' || typeof _this.value === 'object') && !_this.value ) {
+					this.isSelected = false;
+					this.selectedTxt = '';
+					this.selectedVal = '';
+					this.query = '';
+=======
 				if(!_this.value) {
 					this.isSelected = false;
 					this.selectedTxt = '';
 					this.selectedVal = '';
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 					childItem.forEach(function(option, i) {
 						option.selected = false;
 					});
@@ -146,6 +189,40 @@
 				});
 			},
 			querySearch (value) {
+<<<<<<< HEAD
+				setTimeout(() => {
+					// 是否清除v-model绑定的值
+					var isClearSelected = true;
+					// 是否显示 没查到数据
+					var isShowNotFound = false;
+					this.loadingState = false;
+					// 触发子组件queryChange事件
+					this.$children[1].$children.forEach((item) => {
+						// 触发子组件的querychange方法
+						item.$emit('querychange', value);
+						// 进入是否显示 未查到数据 的逻辑
+						if (!isShowNotFound) {
+							// 没有匹配数据
+							if (item.hidden) {
+								// 显示 没查到数据
+								this.notFound = true;
+							}
+							// 有匹配数据
+							else {
+								// 不显示 没查到数据
+								this.notFound = false;
+								// 阻止下次遍历isShowNotFound逻辑
+								isShowNotFound = true;
+							}
+						}
+						// 改变选中状态
+						item.selected === true && ( isClearSelected = false );
+					}, this);
+					if (isClearSelected) {
+						this.$emit('input', '');
+					}
+				}, 0);
+=======
 				// 是否清除v-model绑定的值
 				var isClearSelected = true;
 				// 是否显示 没查到数据
@@ -175,15 +252,31 @@
 				}
 				// 输入框值变化时触发回调
 				this.$emit('queryChange', value);
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 			}
 		},
 		watch: {
-			value (value) {
+			value (value, oldVal) {
 				this.findChild();
 			},
 			query (value) {
+<<<<<<< HEAD
+				if (this.search && !this.remote) {
+					// 输入框值变化时触发回调
+					this.$emit('queryChange', value);
+					// 触发显示列表变化操作
+					this.querySearch(value);
+				}
+				else if (this.remote) {
+					this.loadingState = true;
+					// 输入框值变化时触发回调
+					this.$emit('queryChange', value);
+				}
+			},
+=======
 				this.querySearch(value);
 			}
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 		},
 		mounted () {
 			this.findChild();
@@ -194,11 +287,14 @@
 				if (currOption.label) {
 					this.query = currOption.label;
 				}
+<<<<<<< HEAD
+=======
 				// else {
 				// 	console.info(currOption)
 				// 	console.info(this.selectedTxt)
 				// 	this.query = this.selectedTxt;
 				// }
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 				// 暴露change事件给开发者
 				this.$emit('change', {
 					label: this.selectedTxt,
@@ -319,6 +415,10 @@
 	padding-right: 24px;
 	float: left;
 	width: 100%;
+<<<<<<< HEAD
+	cursor: text;
+=======
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 }
 input.ui-select-search::-webkit-input-placeholder{
 	color: #bbbec4;

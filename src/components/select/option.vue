@@ -69,6 +69,10 @@
 				if (this.label) {
 					this.hidden = !new RegExp(val, 'gi').test(this.label);
 					val !== this.label && ( this.selected = false );
+<<<<<<< HEAD
+					// console.info(this.label, this.hidden)
+=======
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 				}
 				// 使用value检测
 				// else {

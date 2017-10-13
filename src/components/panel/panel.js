@@ -1,3 +1,3 @@
-import Panel from './panel.vue';
+import DatePanel from './datePanel.vue';
 
-export {Panel};
+export {DatePanel};

@@ -15,10 +15,16 @@ import {Pagination} from './components/pagination/index.js';
 import {Modal} from './components/modal/index.js';
 import {Progress} from './components/progress/index.js';
 import {Loading} from './components/loading/index.js';
+import {Tag} from './components/tag/index.js';
 import Message from './components/Message/index.js';
+import {Switch} from './components/switch/index.js';
 
 const uiworker = {
+<<<<<<< HEAD
+    version: '1.1.9',
+=======
     version: '1.1.2',
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
     Row,
     Col,
     Menu,
@@ -42,7 +48,10 @@ const uiworker = {
     Pagination,
     Modal,
     Progress,
-    Loading
+    Loading,
+    Tag,
+    Loading,
+    uiSwitch: Switch
 };
 
 // 定义插件install方法

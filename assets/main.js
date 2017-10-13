@@ -199,6 +199,13 @@ const router = new VueRouter({
             }
         },
         {
+            path: '/component/switch',
+            components: {
+                default: require('./routes/switch.vue'),
+                nav: component_asider
+            }
+        },
+        {
             path: '/component/upload',
             components: {
                 default: require('./routes/upload.vue'),
@@ -254,6 +261,13 @@ const router = new VueRouter({
                 nav: component_asider
             }
         },
+        {
+            path: '/component/tag',
+            components: {
+                default: require('./routes/tag.vue'),
+                nav: component_asider
+            }
+        }
     ]
 });
 

@@ -1,6 +1,6 @@
 <template>
 	<!-- <div style="min-height:150px;"> -->
-		<div :class="[prefixCls + '-mask',]" :style="{position:positionFormat[position]}">
+		<div :class="[prefixCls + '-mask',]" :style="{position:positionFormat[position], width: styleWidth, height: styleHeight}">
 			<div :class="[prefixCls + '-spinner',]">
 				<svg viewBox="25 25 50 50" class="circular" v-show="loading"><circle cx="50" cy="50" r="20" fill="none" class="path"></circle></svg>
 				<!-- <p class="ui-loading-text" v-show="text" v-text="text">拼命加载中</p> -->
@@ -35,6 +35,18 @@
                 type: [Boolean],
                 default: true
             },
+<<<<<<< HEAD
+            width: {
+            	type: [Number, String],
+            	default: 'auto'
+            },
+            height: {
+            	type: [Number, String],
+            	default: 'auto'
+            },
+
+=======
+>>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
         },
         data(){
         	return{
@@ -43,6 +55,24 @@
         	}
         },
         computed: {
+        	styleHeight(){
+        		if(typeof this.height == 'number'){
+        			return Math.max(Math.min(this.height,100),0) + '%';
+				}else if(typeof this.height == 'string'){
+					return this.height;
+				}else{
+					return 'auto'
+				}
+        	},
+        	styleWidth(){
+        		if(typeof this.width == 'number'){
+        			return Math.max(Math.min(this.width,100),0) + '%';
+				}else if(typeof this.width == 'string'){
+					return this.width;
+				}else{
+					return 'auto'
+				}
+        	}
         }
     }
 </script>

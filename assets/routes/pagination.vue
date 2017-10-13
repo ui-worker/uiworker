@@ -73,7 +73,7 @@
             <!-- demo-5 -->
             <div class="example-box">
                 <div class="example-demo">
-                    <Pagination :total="1000" :pageSize="50" @change="pageChange"></Pagination>
+                    <Pagination :current="page" :total="1000" :pageSize="50" @change="pageChange"></Pagination>
                     <div style="padding-top:20px; color:#2b85e4;">
                         <span>当前所在第 {{page}} 页</span>
                     </div>

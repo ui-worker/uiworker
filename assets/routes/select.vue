@@ -238,7 +238,12 @@
             <!-- demo-6 -->
             <div class="example-box">
                 <div class="example-demo">
-                    <Select width="300px" height="30" search v-model="cityName" @queryChange="testSearch" :arrow="false">
+                    <Select width="300px" height="30" 
+                        search 
+                        v-model="cityName" 
+                        @change="sel_change1" 
+                        @queryChange="testSearch" 
+                        :arrow="false">
                         <Option value="beijing" label="北京市">北京市</Option>
                         <Option value="shanghai" label="上海市">上海市</Option>
                         <Option value="shenzhen" label="深圳市">深圳市</Option>
@@ -255,6 +260,9 @@
                         <Option value="hangzhou8" label="杭州市gaga">杭州市gaga</Option>
                         <Option value="hangzhou9" label="杭州市hh">杭州市hh</Option>
                     </Select>
+                    <Button type="warning" @click="changeQuery('')">重置</Button>
+                    <Button type="warning" @click="changeQuery('hangzhou')">杭州</Button>
+
                     <span>{{cityName}}</span>
                     <header><h4>搜索框</h4></header>
                     <p>给 Select 组件绑定search属性可显示输入框，进行搜索。</p>
@@ -285,6 +293,99 @@
                             <Option value="hangzhou8" <org>label</org>=<green>"杭州市gaga"</green>>杭州市gaga</Option>
                             <Option value="hangzhou9" <org>label</org>=<green>"杭州市hh"</green>>杭州市hh</Option>
                         </Select>
+                    </script> 
+                </div>
+            </div>
+            
+            <!-- demo-7 远程搜索 -->
+            <div class="example-box">
+                <div class="example-demo">
+                    <Select width="300px" height="30" 
+                        search
+                        v-model="cityName2" 
+                        @change="sel_change2"
+                        @queryChange="gotoSearch" 
+                        remote
+                        ref="searchSel"
+                        :arrow="false">
+                        <template v-for="item in remote_list">
+                            <Option :value="item.value" :label="item.label">{{item.label}}</Option>
+                        </template>
+                    </Select>
+                    <div v-for="item in data_list">{{item.label}}</div>
+                    <Button type="warning" @click="changeQuery2('')">重置</Button>
+                    <span>{{cityName2}}</span>
+                    <header><h4>远程搜索</h4></header>
+                    <p>远程搜索需同时设置 search remote 属性，并使用querySearch方法触发搜索结果</p>
+                    <p>change事件，会在选择一项后触发，在回调中返回选中项参数。</p>
+                    <p>在queryChange事件中，需自己手动执行ajax获取数据；当返回数据后，需手动更新Option项，并触发组件的querySearch方法，来显示搜索后的结果。</p>
+                </div>
+                <div class="example-code">
+                    <script type='text/html' v-code>
+                        <Select width="300px" height="30" 
+                            <org>search</org>
+                            v-model="cityName2" 
+                            <org>@change</org>=<green>"sel_change2"</green>
+                            <org>@queryChange</org>=<green>"gotoSearch"</green> 
+                            <org>remote</org>
+                            <org>ref</org>=<green>"searchSel"</green>
+                            :arrow="false">
+                                <Option 
+                                    <org>v-for</org>=<green>"item in remote_list"</green> 
+                                    :value="item.value" 
+                                    :label="item.label">
+                                        { {item.label} }
+                                </Option>
+                        </Select>
+                        <div v-for="item in data_list">{ {item.label} }</div>
+                        <Button type="warning" @click="changeQuery2('')">重置</Button>
+                        <script>
+                        <org>export default</org> {
+                            data () {
+                                return {
+                                    cityName2: '',
+                                    remote_list: [],
+                                    data_list: [],
+                                    list: [
+                                        {label: '北京市', value: '1'}, 
+                                        {label: '上海市', value: '2'}, 
+                                        {label: '深圳市', value: '3'}, 
+                                        {label: '杭州市', value: '4'}, 
+                                        {label: '南京市', value: '5'}, 
+                                        {label: '重庆市', value: '6'}, 
+                                        {label: '杭州市1', value: '7'}, 
+                                        {label: '杭州市2', value: '8'}, 
+                                        {label: '杭州市3', value: '9'}, 
+                                        {label: '杭州市4', value: '10'}, 
+                                        {label: '杭州市5', value: '11'}, 
+                                        {label: '杭州市asdf', value: '12'}, 
+                                        {label: '杭州市fgfg', value: '13'}, 
+                                        {label: '杭州市gaga', value: '14'}, 
+                                        {label: '杭州市hh', value: '15'}
+                                    ],
+                                }
+                            };
+                            },
+                            methods: {
+                                sel_change2 (obj) {
+                                    this.data_list.push(obj);
+                                },
+                                gotoSearch (value) {
+                                    if (value != '') {
+                                        var res = this.list.filter(item => (new RegExp(value, 'g')).test(item.label));
+
+                                        setTimeout(() => {
+                                            this.remote_list = res;
+                                            this.$refs.searchSel.querySearch(value);
+                                        }, 1000);
+                                    } else {
+                                        this.remote_list = [];
+                                        this.$refs.searchSel.querySearch('');
+                                    }
+                                }
+                            }
+                        }
+                        &lt;/script&gt;
                     </script> 
                 </div>
             </div>
@@ -368,6 +469,23 @@
                     </tr>
                 </tbody>
             </table>
+            <h3>Select 方法</h3>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>方法名</th> 
+                        <th>说明</th> 
+                        <th>参数</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                    <tr>
+                        <td>querySearch</td> 
+                        <td>执行ajax获取数据后，需执行此方法，才能显示搜索结果</td> 
+                        <td>query</td>
+                    </tr>
+                </tbody>
+            </table>
             
             <h3>Option 属性</h3>
             <table class="api-table">
@@ -415,12 +533,39 @@ export default {
                 index: null
             },
             selectModel: '',
-            cityName: ''
+            cityName: '',
+            cityName2: '',
+            remote_list: [],
+            data_list: [],
+            list: [
+                {label: '北京市', value: '1'}, 
+                {label: '上海市', value: '2'}, 
+                {label: '深圳市', value: '3'}, 
+                {label: '杭州市', value: '4'}, 
+                {label: '南京市', value: '5'}, 
+                {label: '重庆市', value: '6'}, 
+                {label: '杭州市1', value: '7'}, 
+                {label: '杭州市2', value: '8'}, 
+                {label: '杭州市3', value: '9'}, 
+                {label: '杭州市4', value: '10'}, 
+                {label: '杭州市5', value: '11'}, 
+                {label: '杭州市asdf', value: '12'}, 
+                {label: '杭州市fgfg', value: '13'}, 
+                {label: '杭州市gaga', value: '14'}, 
+                {label: '杭州市hh', value: '15'}
+            ],
+            // loadingState: false
         };
     },
     methods: {
         changeModel (value) {
             this.selectModel = value;
+        },
+        changeQuery (value) {
+            this.cityName = value;
+        },
+        changeQuery2 (value) {
+            this.cityName2 = value;
         },
         onchange (item) {
             this.ui_select.label = item.label;
@@ -431,7 +576,26 @@ export default {
             console.info(obj)
         },
         testSearch (value) {
-            console.info(value)
+            // console.info(value)
+        },
+        sel_change1 (obj) {
+            console.info(obj)
+        },
+        sel_change2 (obj) {
+            this.data_list.push(obj);
+        },
+        gotoSearch (value) {
+            if (value != '') {
+                var res = this.list.filter(item => (new RegExp(value, 'g')).test(item.label));
+
+                setTimeout(() => {
+                    this.remote_list = res;
+                    this.$refs.searchSel.querySearch(value);
+                }, 1000);
+            } else {
+                this.remote_list = [];
+                this.$refs.searchSel.querySearch('');
+            }
         }
     }
 }

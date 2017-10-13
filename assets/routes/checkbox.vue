@@ -156,7 +156,7 @@
                 checkbox2: true,
                 checkboxTest: true,
                 checkbox2disabled: true,
-                disabledGroup: []
+                disabledGroup: ['拉人', '拉人1']
             }
         }
     }

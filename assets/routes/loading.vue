@@ -20,16 +20,22 @@
                 <tbody>
                     <tr>
                         <td>postion</td> 
-                        <td>定位方式</td> 
+                        <td>定位方式 static\absolute\fixed</td> 
                         <td>String</td> 
-                        <td>static\absolute\fixed</td>
+                        <td>static</td>
                     </tr>
-<!--                     <tr>
-                        <td>text</td> 
-                        <td>提示文本</td> 
-                        <td>String, Number, Boolean</td> 
-                        <td>-</td>
-                    </tr> -->
+                    <tr>
+                        <td>width</td> 
+                        <td>宽度-数值类型为百分比值，字符串类型为设定值</td> 
+                        <td>String、Number</td> 
+                        <td>auto</td>
+                    </tr>
+                    <tr>
+                        <td>height</td> 
+                        <td>高度-数值类型为百分比值，字符串类型为设定值</td> 
+                        <td>String、Number</td> 
+                        <td>auto</td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -74,20 +80,6 @@
                     </script> 
                 </div>
             </div>
-            <!-- static -->
-           <!--  <div class="example-box">
-                <div class="example-demo">
-                	<div style="position:relative;min-height:150px;">
-                		<Loading position="static" v-show="static">拼命加载中..static...</Loading>
-                	</div>
-                	<header><h4>定位方式:文档流</h4></header>
-                	<p>定位方式 static 同上</p>
-                </div>
-                <div class="example-code">
-                    <script type='text/html' v-code>
-                    </script> 
-                </div>
-            </div> -->
             <!-- absolute -->
             <div class="example-box">
                 <div class="example-demo">
@@ -162,7 +154,42 @@
                     </script> 
                 </div>
             </div>
-
+            
+            <!-- default width height -->
+            <div class="example-box">
+                <div class="example-demo">
+                    <div>
+                        <Button @click="staticHeight=!staticHeight">切换 {{ staticHeight }}</Button>
+                        <hr>
+                    </div>
+                    <dl v-show="!staticHeight">
+                        <dt>特性</dt>
+                        <dd>可直接使用的Vue组件</dd>
+                        <dd>基于 npm + webpack + babel 的工作流，支持 ES2015</dd>
+                        <dt>支持环境</dt>
+                        <dd>支持 Vue.js 2.x</dd>
+                        <dd>浏览器兼容至IE9以上。</dd>
+                        <dd>支持ES6写法</dd>
+                    </dl>
+                        <Loading height="500px" v-if="staticHeight">拼命加载中.....</Loading>
+                    <header><h4>默认定位方式,文档流</h4></header>
+                    <p>定位方式 static,加载动画会加入到文档流当中，一般是与加载数据做互斥条件</p>
+                </div>
+                <div class="example-code">
+                    <script type='text/html' v-code>
+                            <dl v-show="!staticHeight">
+                                <dt>特性</dt>
+                                <dd>可直接使用的Vue组件</dd>
+                                <dd>基于 npm + webpack + babel 的工作流，支持 ES2015</dd>
+                                <dt>支持环境</dt>
+                                <dd>支持 Vue.js 2.x</dd>
+                                <dd>浏览器兼容至IE9以上。</dd>
+                                <dd>支持ES6写法</dd>
+                            </dl>
+                            <Loading height="500px" v-if="staticHeight">拼命加载中.....</Loading>
+                    </script> 
+                </div>
+            </div>
             
         </div>
     </div>
@@ -176,6 +203,7 @@
                 static: true,
                 absolute: true,
                 fixed: false,
+                staticHeight: true,
             }
         },
         methods: {
