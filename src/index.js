@@ -20,11 +20,7 @@ import Message from './components/Message/index.js';
 import {Switch} from './components/switch/index.js';
 
 const uiworker = {
-<<<<<<< HEAD
     version: '1.1.9',
-=======
-    version: '1.1.2',
->>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
     Row,
     Col,
     Menu,

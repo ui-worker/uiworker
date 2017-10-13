@@ -43,11 +43,7 @@
 	    methods: {
 	    	focus() {
 	    		if(this.PanelShow != true){
-<<<<<<< HEAD
 	    			this.Panelvalue = this.inputvalue ?(~this.inputvalue.indexOf(' ') ? this.newDate(this.inputvalue) : this.newDate(this.inputvalue+" 00:00:00") ): null;
-=======
-	    			this.Panelvalue = this.inputvalue ?(this.single ? this.newDate(this.inputvalue) : this.newDate(this.inputvalue+" 00:00:00") ): null;
->>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 	    		}	
 	    		this.showPanel();    		
 	    	},
@@ -85,10 +81,7 @@
 	    },
 	    watch: {
 	    	'value': function(val, old){
-<<<<<<< HEAD
 	    		// console.log(val, old);
-=======
->>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 	    		if(val == ''){
 	    			this.inputvalue = null;
 	    		}else if(val != old){
@@ -105,31 +98,20 @@
 	    		
 	    	},
 	    	'Panelvalue': function (val){
-<<<<<<< HEAD
 	    		// // console.log(this.Panelvalue);
 	    		// console.log(this.Panelvalue,this.Panelvalue?1:2)
-=======
-	    		// console.log(this.Panelvalue);
->>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 	    		this.inputvalue = this.Panelvalue?FormatDate(this.Panelvalue, this.format):'';
 	    	},
 	    },
 	    mounted () {
-<<<<<<< HEAD
 	    	if(this.value){
 	    		this.inputvalue = FormatDate(this.newDate(this.value) || new Date(), this.format);
 	    	}
-=======
->>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
         }
 	}
 </script>
 <style type="text/css" scope>
 	.PanelWarrper{position:relative;min-width: 240px;}
 	.PanelWarrper .ui-datepanel_datetime{position:absolute;background-color: #fff;box-shadow: 0 1px 6px rgba(0,0,0,.2);z-index:999;}
-<<<<<<< HEAD
 	.PanelWarrper .ui-datepanel_datetime{max-width:240px;}
-=======
-	.ui-datepanel_datetime{max-width:240px;}
->>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 </style>

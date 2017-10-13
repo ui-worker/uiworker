@@ -1,10 +1,10 @@
 {
   "name": "ui-worker",
-  "version": "1.1.2",
+  "version": "1.1.9",
   "description": "ui-worker组件库",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config ./build/webpack.config.build.js",
+    "build": "set NODE_ENV=production & webpack --config ./build/webpack.config.build.js",
     "dev": "webpack-dev-server --content-base ./dist --open --inline --hot --compress --history-api-fallback --port 8081 --config ./build/webpack.config.dev.js",
     "dist:dev": "webpack --config ./build/webpack.config.dist.dev.js",
     "dist:prod": "webpack --config ./build/webpack.config.dist.prod.js"
@@ -26,10 +26,10 @@
     "vue-loader": "^12.2.1",
     "vue-router": "^2.6.0",
     "vue-template-compiler": "^2.3.4",
-    "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
   },
   "dependencies": {
-    "vue": "^2.3.4"
+    "vue": "^2.3.4",
+    "webpack": "^3.6.0"
   }
 }

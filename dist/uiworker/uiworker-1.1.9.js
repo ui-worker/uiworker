@@ -3822,7 +3822,6 @@ exports.default = {
 			if (this.label) {
 				this.hidden = !new RegExp(val, 'gi').test(this.label);
 				val !== this.label && (this.selected = false);
-				// console.info(this.label, this.hidden)
 			}
 			// 使用value检测
 			// else {

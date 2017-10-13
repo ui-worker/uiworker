@@ -1121,10 +1121,7 @@ to {
 	padding-right: 24px;
 	float: left;
 	width: 100%;
-<<<<<<< HEAD
 	cursor: text;
-=======
->>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 }
 input.ui-select-search::-webkit-input-placeholder{
 	color: #bbbec4;
@@ -1352,7 +1349,6 @@ input.ui-select-search:-ms-input-placeholder{
 }
 /*指针*/
 .ui-datepanel-date span,.ui-datepanel-header_oper{cursor: pointer;
-<<<<<<< HEAD
 }
 /*月份*/
 .ui-datepanel_time{clear:both;
@@ -1367,22 +1363,6 @@ input.ui-select-search:-ms-input-placeholder{
 }
 .ui-datepanel_time ul li:hover,.ui-datepanel_time ul li.select{    color: #2d8cf0;    background: #f3f3f3;
 }
-=======
-}
-/*月份*/
-.ui-datepanel_time{clear:both;
-}
-.ui-datepanel_time ul{float:left;box-sizing: border-box;width:80px;vertical-align: top;text-align:center;height:200px;overflow: hidden;font-size:0;border-right:1px solid #e9eaec;
-}
-.ui-datepanel_time ul:last-child{border-right:0px solid #e9eaec;
-}
-.ui-datepanel_time ul:hover{overflow-y: scroll;
-}
-.ui-datepanel_time ul li{font-size:12px;padding:5px 5px 5px 0;width:80px;cursor: pointer; user-select:none
-}
-.ui-datepanel_time ul li:hover,.ui-datepanel_time ul li.select{    color: #2d8cf0;    background: #f3f3f3;
-}
->>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 /**/
     /* 进入和离开动画可以分别 */
     /* 设置不同的持续时间(duration)和动画函数(timing function) */
@@ -1403,11 +1383,7 @@ input.ui-select-search:-ms-input-placeholder{
 }
 .PanelWarrper .ui-datepanel_datetime{position:absolute;background-color: #fff;box-shadow: 0 1px 6px rgba(0,0,0,.2);z-index:999;
 }
-<<<<<<< HEAD
 .PanelWarrper .ui-datepanel_datetime{max-width:240px;
-=======
-.ui-datepanel_datetime{max-width:240px;
->>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
 }
 
 *,:after,:before {

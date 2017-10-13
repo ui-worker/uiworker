@@ -35,7 +35,6 @@
                 type: [Boolean],
                 default: true
             },
-<<<<<<< HEAD
             width: {
             	type: [Number, String],
             	default: 'auto'
@@ -45,8 +44,6 @@
             	default: 'auto'
             },
 
-=======
->>>>>>> 3770b27ae496b0974b3532f15628e7ed306a2417
         },
         data(){
         	return{
